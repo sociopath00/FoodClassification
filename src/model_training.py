@@ -7,6 +7,7 @@ from torchvision.models import EfficientNet_B1_Weights, efficientnet_b1
 
 from src.data_setup import create_dataloaders
 from src.engine import train
+import config
 
 # # Set the manual seeds
 # torch.manual_seed(42)
@@ -16,7 +17,7 @@ from src.engine import train
 device = torch.accelerator.current_accelerator() if torch.accelerator.is_available() else "cpu"
 
 # Prepare data paths
-image_path = Path("data/pizza_steak_sushi_20_percent")
+image_path = Path(config.DATA_DIR) / config.TRAIN_DATA_PATH
 
 train_dir = image_path / "train"
 test_dir = image_path / "test"
@@ -32,8 +33,6 @@ train_dataloader, test_dataloader, class_names = create_dataloaders(
     transform=auto_transforms,
     batch_size=32
 )
-
-print(class_names)
 
 # Setup the model with pretrained weights
 model = efficientnet_b1(weights=weights).to(device)
@@ -69,11 +68,11 @@ results = train(model=model,
 # print(f"Model Result: {results}")
 
 # Save the model
-MODEL_DIR = Path("models/")
+MODEL_DIR = Path(config.MODEL_DIR)
 if not os.path.exists(MODEL_DIR):
     os.mkdir(MODEL_DIR)
 
-MODEL_SAVE_PATH = MODEL_DIR / "model_0.pth"
+MODEL_SAVE_PATH = MODEL_DIR / config.MODEL_NAME
 torch.save(obj=model.state_dict(), # only saving the state_dict() only saves the learned parameters
            f=MODEL_SAVE_PATH)
 

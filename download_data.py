@@ -2,9 +2,11 @@ import requests
 import zipfile
 from pathlib import Path
 
+import config
+
 # Setup path to data folder
-data_path = Path("data/")
-image_path = data_path / "pizza_steak_sushi_20_percent"
+data_path = Path(config.DATA_DIR)
+image_path = data_path / config.TRAIN_DATA_PATH
 
 # If the image folder doesn't exist, download it and prepare it... 
 if image_path.is_dir():

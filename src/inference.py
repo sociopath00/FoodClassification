@@ -3,7 +3,9 @@ from torchvision.models import efficientnet_b1, EfficientNet_B1_Weights
 import torch.nn as nn
 
 from PIL import Image
-from torchvision import transforms
+from pathlib import Path
+
+import config
 
 
 def efficientnet_inference(img_path: str, 
@@ -42,10 +44,12 @@ def efficientnet_inference(img_path: str,
         nn.Linear(in_features=1280, out_features=output_shape, bias=True)
     )
 
-    # 4. Load the trained weights
-    model.load_state_dict(torch.load("models/model_0.pth"))
+    MODEL_PATH = Path(config.MODEL_DIR) / config.MODEL_NAME
 
-    # 5. Put into eval mode (important for dropout/batchnorm)
+    # Load the trained weights
+    model.load_state_dict(torch.load(MODEL_PATH))
+
+    # Put into eval mode 
     model.eval()
 
     # Inference
@@ -57,7 +61,7 @@ def efficientnet_inference(img_path: str,
 
 
 if __name__ == "__main__":
-    img_path = "data/pizza_steak_sushi_20_percent/test/sushi/57230.jpg"
+    img_path = config.TEST_IMG
     class_names = ["pizza", "steak", "sushi"]
     prediction = efficientnet_inference(img_path=img_path, class_names=class_names)
     print(f"Predicted Class: {prediction}")
