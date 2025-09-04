@@ -35,7 +35,7 @@ This is a toy project which uses Pretrained model (EfficientNet) to predict if t
 
 4. Run the python script to launch Stream-lit UI
 
-    `python app.py`
+    `streamlit run app.py`
 
 
 
