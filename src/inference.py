@@ -4,12 +4,12 @@ import torch.nn as nn
 
 from PIL import Image
 from pathlib import Path
-
+from typing import Tuple
 import config
 
 
 def efficientnet_inference(img_path: str, 
-                           class_names: list) -> str:
+                           class_names: list) -> Tuple[str, float, torch.Tensor]:
     """Inference function for classifing the image
 
     Args:
@@ -55,14 +55,19 @@ def efficientnet_inference(img_path: str,
     # Inference
     with torch.inference_mode():
         output = model(input_tensor)
-        pred_class = torch.argmax(output, dim=1).item()
+        probabilities = torch.softmax(output, dim=1)[0]  # convert logits → probabilities
+        pred_class_idx = torch.argmax(probabilities).item()
+        pred_class = class_names[pred_class_idx]
+        pred_confidence = probabilities[pred_class_idx].item()
+        # pred_class = torch.argmax(output, dim=1).item()
 
-    return class_names[pred_class]
+    return pred_class, round(pred_confidence, 2), probabilities
 
 
 if __name__ == "__main__":
     img_path = config.TEST_IMG
     class_names = ["pizza", "steak", "sushi"]
-    prediction = efficientnet_inference(img_path=img_path, class_names=class_names)
-    print(f"Predicted Class: {prediction}")
+    prediction, conf, probs = efficientnet_inference(img_path=img_path, class_names=class_names)
+    print(f"Predicted Class: {prediction} with {conf}% confidence")
+    print(f"Probabilities are {probs}")
 
