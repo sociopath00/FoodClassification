@@ -61,9 +61,9 @@ results = train(model=model,
                 test_dataloader=test_dataloader,
                 optimizer=optimizer,
                 loss_fn=loss_fn,
-                epochs=75,
+                epochs=5,
                 device=device,
-                verbose=10)
+                verbose=1)
 
 # print(f"Model Result: {results}")
 
