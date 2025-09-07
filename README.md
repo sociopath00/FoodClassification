@@ -17,7 +17,7 @@ This is a toy project which uses Pretrained model (EfficientNet) to predict if t
 
     `uv sync`
 
-4. Download the data for training
+3. Download the data for training
     
     `uv run download_data.py` 
     
@@ -25,7 +25,7 @@ This is a toy project which uses Pretrained model (EfficientNet) to predict if t
     
     `python download_data.py`
 
-5. Train the model
+4. Train the model
 
     `uv run -m src.model_training`
 
@@ -33,7 +33,7 @@ This is a toy project which uses Pretrained model (EfficientNet) to predict if t
 
     `python -m src.model_training`
 
-6. Run the inference code
+5. Run the inference code
 
     `uv run -m src.inference`
 
