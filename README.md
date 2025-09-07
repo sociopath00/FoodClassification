@@ -13,15 +13,11 @@ This is a toy project which uses Pretrained model (EfficientNet) to predict if t
 
     `git clone https://github.com/sociopath00/FoodClassification.git`
 
-2. Change the directory and Create Virtual Env using UV
+2. Install the requirements and dependecies
 
-    `uv venv`
+    `uv sync`
 
-3. Install packages
-
-    `uv pip install -r pyproject.toml`
-
-4. Optional: Download the data
+4. Download the data for training
     
     `python download_data.py`
 
